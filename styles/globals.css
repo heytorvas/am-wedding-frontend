@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+:root {
+  --primary-color: #4A6B4A;
+  --secondary-color: #D4C4B8;
+  --background-color: #FBF9F6;
+  --text-primary: #3C2A1E;
+  --text-secondary: #706F6C;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  min-height: max(884px, 100dvh);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+}
