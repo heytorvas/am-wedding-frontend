@@ -103,7 +103,7 @@ const RSVP = forwardRef(function RSVP(props, ref) {
           setIsSubmittingTestimonial(true);
           try {
             const testimonialResponse = await apiClient.submitTestimonial({
-              name: formData.fullName,
+              full_name: formData.fullName,
               message: formData.testimonial.trim()
             });
             
