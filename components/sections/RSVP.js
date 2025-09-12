@@ -1,8 +1,10 @@
 import { useState, forwardRef } from 'react';
 import { weddingConfig } from '../../lib/config';
 import { apiClient } from '../../lib/api';
+import { useRouter } from 'next/navigation';
 
 const RSVP = forwardRef(function RSVP(props, ref) {
+  const router = useRouter();
   const [companions, setCompanions] = useState([]);
   const [formData, setFormData] = useState({
     fullName: '',
@@ -106,7 +108,6 @@ const RSVP = forwardRef(function RSVP(props, ref) {
               full_name: formData.fullName,
               message: formData.testimonial.trim()
             });
-            
             if (!testimonialResponse.ok) {
               console.error('Failed to submit testimonial');
             }
@@ -125,6 +126,7 @@ const RSVP = forwardRef(function RSVP(props, ref) {
           testimonial: ''
         });
         setCompanions([]);
+        router.refresh();
       } else {
         const errorData = await response.json();
         alert(`Erro ao enviar RSVP: ${errorData.detail || 'Erro desconhecido'}`);
@@ -167,7 +169,7 @@ const RSVP = forwardRef(function RSVP(props, ref) {
         </div>
       )}
 
-      <div className="flex flex-col gap-6 p-6">
+      <div className="flex flex-col gap-6 p-6" id="confirmacao">
         <h2 className="font-serif text-3xl font-bold text-[var(--text-primary)] text-center">Você estará lá?</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="flex flex-col gap-2">
@@ -318,7 +320,7 @@ const RSVP = forwardRef(function RSVP(props, ref) {
             disabled={isSubmitting || isSubmittingTestimonial}
             className="w-full cursor-pointer rounded-full bg-[var(--primary-color)] p-4 text-base font-bold text-white shadow-lg hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? 'Enviando RSVP...' : isSubmittingTestimonial ? 'Enviando Mensagem...' : 'Enviar RSVP'}
+            {isSubmitting ? 'Confirmando...' : isSubmittingTestimonial ? 'Enviando Mensagem...' : 'Confirmar'}
           </button>
         </form>
       </div>

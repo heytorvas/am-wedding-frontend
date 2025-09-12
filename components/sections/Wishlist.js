@@ -89,12 +89,12 @@ export default function Wishlist() {
   };
 
   return (
-    <main className="p-6">
+    <main className="p-6" id="presentes">
       {/* Donation Popup */}
       {showDonationPopup && selectedGift && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 max-w-sm w-full">
-            <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4 text-center">Doar Presente</h3>
+            <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4 text-center">Presente</h3>
             <div className="mb-4 text-center">
               <Image 
                 src={selectedGift.image_url} 
@@ -136,7 +136,7 @@ export default function Wishlist() {
                   disabled={isDonating}
                   className="flex-1 bg-[var(--primary-color)] text-white py-2 px-4 rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50"
                 >
-                  {isDonating ? 'Processando...' : 'Confirmar Doação'}
+                  {isDonating ? 'Processando...' : 'Confirmar'}
                 </button>
               </div>
             </form>

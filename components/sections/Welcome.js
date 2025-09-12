@@ -14,7 +14,7 @@ export default function Welcome({ onRSVPClick }) {
           onClick={onRSVPClick}
           className="flex min-w-[120px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-full h-12 px-8 bg-[var(--primary-color)] text-white text-base font-medium tracking-wide shadow-lg hover:bg-opacity-90 transition-colors"
         >
-          <span className="truncate">RSVP</span>
+          <span className="truncate">Confirmar Presença</span>
         </button>
       </div>
     </div>

@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function Venue() {
   return (
-    <main>
+    <main id="localizacao">
       <div className="mx-4 mt-2 overflow-hidden rounded-lg">
         <Image 
           alt="Vista panorâmica do local do casamento" 
@@ -15,7 +15,7 @@ export default function Venue() {
         />
       </div>
       <div className="p-6 text-center">
-        <h2 className="text-2xl font-bold text-[var(--text-primary)]">Cerimônia & Recepção</h2>
+        <h2 className="text-2xl font-bold text-[var(--text-primary)]">Recepção</h2>
         <p className="mt-2 text-[var(--text-secondary)]">
           {weddingConfig.texts.ceremonyDescription}
         </p>
@@ -44,7 +44,7 @@ export default function Venue() {
               </svg>
             </div>
             <div>
-              <p className="font-semibold text-[var(--text-primary)]">19:30</p>
+              <p className="font-semibold text-[var(--text-primary)]">18:30</p>
               <p className="text-sm text-[var(--text-secondary)]">Horário</p>
             </div>
           </div>
