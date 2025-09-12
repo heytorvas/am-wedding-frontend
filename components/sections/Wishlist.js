@@ -47,6 +47,12 @@ export default function Wishlist() {
     fetchGifts(nextPage, true);
   };
 
+  const clipboardText = async () => {
+    await navigator.clipboard.writeText(weddingConfig.pix.key);
+    setShowDonationPopup(false);
+    setShowConfirmationPopup(true)
+  }
+
   const handleGiftClick = (gift) => {
     setSelectedGift(gift);
     setShowDonationPopup(true);
@@ -61,10 +67,10 @@ export default function Wishlist() {
     }
 
     setIsDonating(true);
-    
+
     try {
       const response = await apiClient.markGiftPurchased(selectedGift.id, donorName.trim());
-      
+
       if (response.ok) {
         setConfirmationMessage('Obrigado pela sua doação! O presente foi marcado como adquirido.');
         setShowDonationPopup(false);
@@ -96,8 +102,8 @@ export default function Wishlist() {
           <div className="bg-white rounded-lg p-6 max-w-sm w-full">
             <h3 className="text-xl font-bold text-[var(--text-primary)] mb-4 text-center">Presente</h3>
             <div className="mb-4 text-center">
-              <Image 
-                src={selectedGift.image_url} 
+              <Image
+                src={selectedGift.image_url}
                 alt={selectedGift.name}
                 className="w-24 h-24 object-cover rounded-lg mx-auto mb-2"
                 width={96}
@@ -105,41 +111,63 @@ export default function Wishlist() {
               />
               <p className="text-[var(--text-secondary)]">{selectedGift.name}</p>
             </div>
-            <form onSubmit={handleDonation}>
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
-                  Seu Nome Completo
-                </label>
-                <input
-                  type="text"
-                  value={donorName}
-                  onChange={(e) => setDonorName(e.target.value)}
-                  className="w-full p-3 border border-[var(--primary-color)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
-                  placeholder="Digite seu nome completo"
-                  required
-                />
-              </div>
-              <div className="flex gap-3">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowDonationPopup(false);
-                    setDonorName('');
-                    setSelectedGift(null);
-                  }}
-                  className="flex-1 py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  disabled={isDonating}
-                  className="flex-1 bg-[var(--primary-color)] text-white py-2 px-4 rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50"
-                >
-                  {isDonating ? 'Processando...' : 'Confirmar'}
-                </button>
-              </div>
-            </form>
+            {selectedGift.name === weddingConfig.pix.name ? <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowDonationPopup(false);
+                  setDonorName('');
+                  setSelectedGift(null);
+                }}
+                className="flex-1 py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                onClick={clipboardText}
+                className="flex-1 bg-[var(--primary-color)] text-white py-2 px-4 rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50"
+              >
+                Copiar Chave PIX
+              </button>
+            </div> :
+              <form onSubmit={handleDonation}>
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+                    Seu Nome Completo
+                  </label>
+                  <input
+                    type="text"
+                    value={donorName}
+                    onChange={(e) => setDonorName(e.target.value)}
+                    className="w-full p-3 border border-[var(--primary-color)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary-color)]"
+                    placeholder="Digite seu nome completo"
+                    required
+                  />
+                </div>
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowDonationPopup(false);
+                      setDonorName('');
+                      setSelectedGift(null);
+                    }}
+                    className="flex-1 py-2 px-4 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={isDonating}
+                    className="flex-1 bg-[var(--primary-color)] text-white py-2 px-4 rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-50"
+                  >
+                    {isDonating ? 'Processando...' : 'Confirmar'}
+                  </button>
+                </div>
+              </form>
+            }
+
           </div>
         </div>
       )}
@@ -148,16 +176,33 @@ export default function Wishlist() {
         <h2 className="font-serif text-4xl font-bold text-[var(--primary-color)]">Nossa Lista de Desejos</h2>
         <p className="mt-4 text-base text-[var(--text-secondary)]">Escolha um presente especial para nos ajudar a começar nossa nova vida juntos</p>
       </div>
-      
+
       <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-6">
+        <div
+          key="PIX"
+          className="group cursor-pointer"
+          onClick={() => handleGiftClick({ id: weddingConfig.pix.id, name: weddingConfig.pix.name, image_url: weddingConfig.pix.image_url })}
+        >
+          <div className="overflow-hidden rounded-lg">
+            <Image
+              alt={weddingConfig.pix.name}
+              className="h-auto w-full transform object-cover transition-transform duration-300 group-hover:scale-105"
+              src={weddingConfig.pix.image_url}
+              width={200}
+              height={200}
+              sizes="(max-width: 768px) 50vw, 200px"
+            />
+          </div>
+          <h3 className="mt-3 text-base font-medium text-[var(--primary-color)]">{weddingConfig.pix.name}</h3>
+        </div>
         {gifts.map((gift) => (
-          <div 
-            key={gift.id} 
+          <div
+            key={gift.id}
             className="group cursor-pointer"
             onClick={() => handleGiftClick(gift)}
           >
             <div className="overflow-hidden rounded-lg">
-              <Image 
+              <Image
                 alt={gift.name}
                 className="h-auto w-full transform object-cover transition-transform duration-300 group-hover:scale-105"
                 src={gift.image_url}
@@ -170,10 +215,10 @@ export default function Wishlist() {
           </div>
         ))}
       </div>
-      
+
       {hasMore && (
         <div className="mt-8 text-center">
-          <button 
+          <button
             onClick={handleShowMore}
             disabled={loading}
             className="rounded-full bg-[var(--primary-color)] px-8 py-3 text-sm font-semibold text-white transition hover:bg-opacity-90 disabled:opacity-50"
